@@ -28,8 +28,12 @@ close all;
 % Compresion logaritmica de la original
 r = 0:L-1;
 s = log(r+1);
-ima_compr = s(ima+1)/log(255)*255;
+ima_compr = s(ima+1);
+M = max(ima_compr(:));
+m = min(ima_compr(:));
+ima_compr = (ima_compr-m)/(M-m)*255;
 ima_compr = uint8(ima_compr);
+
 ima_compr_th =  uint8(UmbralizaGlobalOtsu(ima_compr)*255);
 
 not_ima_compr_th = ~ ima_compr_th;
@@ -52,7 +56,10 @@ close all;
 negativo_ima = Negativo(ima, L);
 r = 0:L-1;
 s = log(r+1);
-negativo_compr = s(negativo_ima+1)/log(255)*255;
+negativo_compr = s(negativo_ima+1);
+M = max(negativo_compr(:));
+m = min(negativo_compr(:));
+negativo_compr = (negativo_compr - m)/(M-m)*255;
 negativo_compr = uint8(negativo_compr);
 
 negativo_compr_th =  uint8(UmbralizaGlobalOtsu(negativo_compr)*255);

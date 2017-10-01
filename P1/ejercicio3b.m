@@ -81,10 +81,10 @@ imhist(ima_ecu(:, :, 3))
 %%%%% Opcion 2 Ecualizar solo V
 ima_hsv = rgb2hsv(ima);
 v = ima_hsv(:,:,3);
-fpa = cumsum(v)/sum(v);
 v = uint8(v*255);
 v_res = Ecualizacion(v, 256);
 im = ima(:,:,i);
+
 nM = 255;
 nm = 0;
 
