@@ -1,6 +1,7 @@
 close all;
 clear all;
 clc;
+addpath('correctores');
 
 [ima1] = imread('imagenes/unequalized.jpg');
 [counts, binLocations] = imhist(ima1);

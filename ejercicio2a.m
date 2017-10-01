@@ -1,6 +1,7 @@
 close all;
 clear all;
 clc;
+addpath('correctores');
 
 %%% Parametro del numero de iteraciones
 niters = 100;
