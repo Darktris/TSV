@@ -24,11 +24,11 @@ subplot(3, 2, 4)
 imhist(ima)
 title('histograma')
 subplot(3, 2, 5)
-imshow(ima_ajustada)
+imshow(uint8(ima_ajustada))
 E = getEnergia(uint8(ima_ajustada));
 title(sprintf('Imagen contraste modificado; a=%d, sa=%d, b=%d, sb=%d, E=%g', a, sa, b, sb, E));
 subplot(3, 2, 6)
-imhist(ima_ajustada)
+imhist(uint8(ima_ajustada))
 title('histograma modificado')
 
 
