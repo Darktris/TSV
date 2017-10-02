@@ -120,3 +120,30 @@ subplot(6, 4, 23)
 imhist(ima_res(:, :, 2))
 subplot(6, 4, 24)
 imhist(ima_res(:, :, 3))
+
+%% Imagen informe de practicas - Comparativa
+R = Ecualizacion(ima(:,:,1), 256);
+M = max(R(:));
+m = min(R(:));
+Rteorica = R*255;
+Rpract = (R-m)/(M-m)*255;
+
+figure
+subplot(3,2,1);
+imshow(ima(:,:,1))
+title('Imagen original')
+subplot(3,2,3);
+imshow(uint8(Rteorica))
+title('Imagen ecualizada estirado teórico')
+subplot(3,2,5);
+imshow(uint8(Rpract));
+title('Imagen ecualizada estirado práctico')
+subplot(3,2,2);
+imhist(ima(:,:,1))
+title('Histograma')
+subplot(3,2,4)
+imhist(uint8(Rteorica));
+title('Histograma')
+subplot(3,2,6);
+imhist(uint8(Rpract));
+title('Histograma')
