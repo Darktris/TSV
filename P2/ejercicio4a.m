@@ -15,10 +15,14 @@ ay =10;
 H = k.*(ax.*(X))+(ay.*(Y)) + 1e-10;
 H = (1./(H)).*sin(H).*exp(-j*H); 
 
-figure;
+subplot 132
 imshow(abs(H))
-figure;
+title(sprintf('H E=%g', getEnergia(abs(H))))
+
+subplot 131
 imshow(Ifilt);
+title(sprintf('Imagen original E=%g', getEnergia(Ifilt)))
+
 
 im_frec_2 = fft2(Ifilt);
 im_frec = fftshift(im_frec_2);
@@ -28,8 +32,11 @@ Tsi = im_frec./H;
 Tsi_temp = ifftshift(Tsi);
 Tsi_2 = (ifft2(Tsi_temp));
 
-ima_res = real((Tsi_2));
+ima_res = abs((Tsi_2));
 
 
-figure;
+subplot 133
 imshow((ima_res))
+title(sprintf('Imagen restaurada E=%g', getEnergia(ima_res)))
+
+test_ej_4_a(Ifilt, Tsi_2,0)
