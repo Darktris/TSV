@@ -15,7 +15,7 @@ Xc = (X - f0x);Yc = (Y - f0y);
 
 D0=fs/4;
 % filtro paso bajo ideal con frecuencia de corte D0
-f_filter =double(Xc.^2 + Yc.^2 <= D0/fs); 
+f_filter =double(Xc.^2 + Yc.^2 <= (D0/fs).^2); 
 
 f_filter_d = ifftshift(f_filter);
 h_d = ifft2(f_filter_d);
@@ -42,7 +42,7 @@ end
 filter_mask = round(filter_mask.*j);
 
 C = sum(filter_mask(:));
-% filter_mask=filter_mask./C;
+filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
 h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
@@ -61,13 +61,17 @@ figure;
 subplot 311
 imagesc(f_filter);
 colormap(gray)
+title(sprintf('Filtro E=%g', getEnergia(f_filter)))
+
 subplot 312
 imagesc(f_filter_t);
 colormap(gray)
+title(sprintf('Filtro truncado E=%g', getEnergia(f_filter_t)))
 diff = (f_filter - f_filter_t).^2;
 subplot 313
 imagesc(diff);
+title(sprintf('Diferencia E=%g', getEnergia(diff)))
 colormap(gray)
 
-
+test_ej_3_a(f_filter, f_filter_t, 1,1);
 

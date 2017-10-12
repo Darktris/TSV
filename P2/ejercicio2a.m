@@ -11,9 +11,18 @@ F = sqrt(FX.^2 + FY.^2);
 
 subplot(1,4,1);
 imshow(uint8(ima));
+title(sprintf('Imagen original E=%g', getEnergia(ima)))
+
 subplot(1,4,2);
-imshow(uint8(FX));
+imagesc(uint8(FX));
+title(sprintf('Grad. H E=%g', getEnergia(FX)))
+
 subplot(1,4,3);
-imshow(uint8(FY));
+imagesc(uint8(FY));
+title(sprintf('Grad. v E=%g', getEnergia(FY)))
+
 subplot(1,4,4);
-imshow(uint8(F));
+imagesc(uint8(F));
+title(sprintf('Gradiente E=%g', getEnergia(F)))
+
+test_ej_2_a(ima,F,FX,FY,0);
