@@ -72,7 +72,9 @@ for i=K
     I = uint8(I);
     hist = imhist(I);
     I_res = histeq(uint8(ICest), hist);
-    diff = double((I-I_res).^2);
+    diff = (double(I)/255-double(I_res)/255).^2;
+    % Por que esto en vez de abs(I-I_res)? esto se come muchos bordes que
+    % de la otra manera salen...
     m = min(diff(:));
     M = max(diff(:));
     diff = (diff)/(M-m);

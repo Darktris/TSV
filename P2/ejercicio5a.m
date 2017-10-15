@@ -48,19 +48,6 @@ filter_mask = round(filter_mask.*j);
 C = sum(filter_mask(:));
 filter_mask=filter_mask./C;
 
-h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
-
-h_f_d = fftshift(h_f);
-f_filter_t_d = fft2(h_f_d);
-f_filter_t = abs(ifftshift(f_filter_t_d));% sólo el módulo 
-
-M = max(max( f_filter_t ));
-
-m = min(min( f_filter_t ));
-
-f_filter_t = (f_filter_t - m)/(M-m);
-
 % Aplicacion y estirado
 
 IF = imfilter(I, filter_mask);
@@ -77,7 +64,10 @@ I = uint8(I);
 hist = imhist(I);
 I_res = histeq(uint8(ICest), hist);
 
-diff = double((I-I_res).^2);
+
+% Por que esto en vez de abs(I-I_res)? esto se come muchos bordes que
+% de la otra manera salen...
+diff = (double(I)/255-(double(I_res)/255)).^2;
 m = min(diff(:));
 M = max(diff(:));
 diff = (double(diff)-double(m))/double((M-m));
