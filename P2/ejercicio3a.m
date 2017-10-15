@@ -15,7 +15,7 @@ Xc = (X - f0x);Yc = (Y - f0y);
 
 D0=fs/4;
 % filtro paso bajo ideal con frecuencia de corte D0
-f_filter =double(Xc.^2 + Yc.^2 <= (D0/fs).^2); 
+f_filter = double(Xc.^2 + Yc.^2 <= (D0/fs).^2); 
 
 f_filter_d = ifftshift(f_filter);
 h_d = ifft2(f_filter_d);
@@ -24,7 +24,7 @@ h = fftshift(h_d);
 cx = 1 + fs./2;
 cy = 1 + fs./2;
 w = 1;
-%w = 0.5;
+
 
 filter_mask=h(cy-w:cy+w,cx-w:cx+w); 
 
@@ -45,15 +45,16 @@ C = sum(filter_mask(:));
 filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
+h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask; 
 
 h_f_d = fftshift(h_f);
 f_filter_t_d = fft2(h_f_d);
 f_filter_t = abs(ifftshift(f_filter_t_d));% sólo el módulo 
 
-M = max(max( f_filter_t ));
+M = max(f_filter_t(:));
 
-m = min(min( f_filter_t ));
+m = min(f_filter_t(:));
+
 
 f_filter_t = (f_filter_t - m)/(M-m);
 
@@ -73,5 +74,5 @@ imagesc(diff);
 title(sprintf('Diferencia E=%g', getEnergia(diff)))
 colormap(gray)
 
-test_ej_3_a(f_filter, f_filter_t, 1,1);
+%test_ej_3_a(f_filter, f_filter_t, w, 1);
 

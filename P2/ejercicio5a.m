@@ -17,7 +17,7 @@ Xc = (X - f0x);Yc = (Y - f0y);
 D0=fs/8;
 
 
-f_filter = -double(Xc.^2 + Yc.^2); %double(Xc.^2 + Yc.^2 <= D0/fs); 
+f_filter = -double(Xc.^2 + Yc.^2); 
 
 f_filter_d = ifftshift(f_filter);
 h_d = ifft2(f_filter_d);
@@ -76,7 +76,8 @@ ICest = (IC-m)/(M-m)*255;
 I = uint8(I);
 hist = imhist(I);
 I_res = histeq(uint8(ICest), hist);
-diff = (I-I_res).^2;
+
+diff = double((I-I_res).^2);
 m = min(diff(:));
 M = max(diff(:));
 diff = (double(diff)-double(m))/double((M-m));

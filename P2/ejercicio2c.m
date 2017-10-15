@@ -7,8 +7,8 @@ addpath('autoevaluacion');
 fs=400;
 v1=1/fs;
 v2=1/fs;
-x=[0:v1:1];
-y=[0:v2:1];
+x=0:v1:1;
+y=0:v2:1;
 [X,Y]=meshgrid(x,y); 
 
 f0x=0.5;
@@ -17,7 +17,7 @@ Xc = (X - f0x);Yc = (Y - f0y);
 
 D0=fs/8;
 sigma = D0/fs;
-norm = 1/(2*pi*sigma)*exp(-(0)/(2*sigma.^2));
+norm = 1/(2*pi*sigma);
 f_gaussiana = 1/(2*pi*sigma)*exp(-(Xc.^2 + Yc.^2)/(2*sigma.^2))/norm;
 %f_gaussiana = f_gaussiana./(1/(2*pi*sigma)*exp(-(0)/2*sigma^2));
 % filtro paso bajo ideal con frecuencia de corte D0
@@ -30,12 +30,13 @@ h = fftshift(h_d);
 cx = 1 + fs./2;
 cy = 1 + fs./2;
 
-w = 1;
+%%%%% Orden del filtro normal
+w = 3;
 ws =round(w*(1/(2*pi*D0/fs))); 
 
 filter_mask=h(cy-w:cy+w,cx-w:cx+w); 
 
-[m,j] = min(filter_mask(:));
+[m,~] = min(filter_mask(:));
 filter_mask = filter_mask./m; 
 R = ceil(127./max(abs(filter_mask(:)))); 
 
@@ -74,22 +75,18 @@ s2 = [ones(3,1), zeros(3,1), -ones(3,1)]/6;
 FX = imfilter(ima,s);
 FY = imfilter(ima,s2);
 F = sqrt(FX.^2 + FY.^2); 
-figure
-subplot(1,4,1);
-imshow(uint8(ima));
-title(sprintf('Imagen original E=%g', getEnergia(ima)))
 
-subplot(1,4,2);
+subplot(3,3,1);
 imagesc(uint8(FX));
-title(sprintf('Grad. H E=%g', getEnergia(FX)))
+title(sprintf('Prewitt FX E=%g', getEnergia(FX)))
 
-subplot(1,4,3);
+subplot(3,3,2);
 imagesc(uint8(FY));
-title(sprintf('Grad. v E=%g', getEnergia(FY)))
+title(sprintf('Prewitt FY E=%g', getEnergia(FY)))
 
-subplot(1,4,4);
+subplot(3,3,3);
 imagesc(uint8(F));
-title(sprintf('Gradiente E=%g', getEnergia(F)))
+title(sprintf('Prewitt F E=%g', getEnergia(F)))
 
 
 % Roberts
@@ -100,18 +97,6 @@ FX = imfilter(ima,s);
 FY = imfilter(ima,s2);
 F = sqrt(FX.^2 + FY.^2); 
 
-figure
-subplot(3,3,1);
-E = getEnergia(ima);
-imshow(uint8(ima));
-title(sprintf('Original E=%g', E));
-
-subplot(3,3,2);
-
-ima_res_roberts = (F)/(max(F(:)) - min(F(:)));
-E = getEnergia(ima_res_roberts);
-imshow(ima_res_roberts);
-title(sprintf('Resultado Roberts 0-1 E=%g', E));
 
 subplot(3,3,4);
 imagesc(uint8(FX));
@@ -137,12 +122,6 @@ FX = imfilter(ima,s);
 FY = imfilter(ima,s2);
 F = sqrt(FX.^2 + FY.^2); 
 
-subplot(3,3,3);
-
-ima_res_sobel = (F)/(max(F(:)) - min(F(:)));%Estirado(F/255, 0, 1);
-E = getEnergia(ima_res_sobel);
-imshow(ima_res_sobel);
-title(sprintf('Resultado Sobel 0-1 E=%g', E));
 
 subplot(3,3,7);
 imagesc(uint8(FX));

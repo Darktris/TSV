@@ -71,7 +71,7 @@ title(sprintf('Filtro laplaciano, E=%g', E))
 subplot 122
 surf(1:5,1:5,filter_mask, 'edgecolor', 'none');
 E = getEnergia(filter_mask);
-title(sprintf('Filtro laplaciano, E=%g', E))
+title(sprintf('Máscara 5x5, E=%g', E))
 figure;
 subplot 131
 imagesc(f_filter);
