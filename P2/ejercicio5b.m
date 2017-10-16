@@ -87,7 +87,7 @@ for i=K
     subplot(4, 2, 2*counter)
     imshow((diff));
     E = getEnergia(diff);
-    title(sprintf('Diferencia K=%d, E=%g', i, E));
+    title(sprintf('Diferencia cuadrados K=%d, E=%g', i, E));
 end
 
 

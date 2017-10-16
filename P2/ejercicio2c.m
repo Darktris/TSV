@@ -31,7 +31,8 @@ cx = 1 + fs./2;
 cy = 1 + fs./2;
 
 %%%%% Orden del filtro normal
-w = 3;
+w = 1;
+%%%%%
 ws =round(w*(1/(2*pi*D0/fs))); 
 
 filter_mask=h(cy-w:cy+w,cx-w:cx+w); 
@@ -53,7 +54,7 @@ C = sum(filter_mask(:));
 filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
+h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask; 
 
 h_f_d = fftshift(h_f);
 f_filter_t_d = fft2(h_f_d);

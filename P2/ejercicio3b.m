@@ -49,10 +49,10 @@ end
 filter_mask = round(filter_mask.*j);
 
 C = sum(filter_mask(:));
-% filter_mask=filter_mask./C;
+filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
+h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask; 
 
 h_f_d = fftshift(h_f);
 f_filter_t_d = fft2(h_f_d);

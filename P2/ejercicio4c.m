@@ -50,10 +50,10 @@ end
 filter_mask = round(filter_mask.*j);
 
 C = sum(filter_mask(:));
-% filter_mask=filter_mask./C;
+filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
+h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask; 
 
 h_f_d = fftshift(h_f);
 f_filter_t_d = fft2(h_f_d);
@@ -84,8 +84,10 @@ im_frec = TransformadaFourier(Ifilt_G);
 %% Calculo de las restauraciones 
 
 % Wiener
-k = 0.00170;
-tsi_wiener = im_frec.*(1./H.*(abs(H).^2)./(abs(H).^2+k));
+k = 0.03083;
+Hc=H.*conj(H);
+w_filter=(1./H).*(Hc./(Hc+k));
+tsi_wiener = im_frec.*w_filter;
 ima_res_wiener = InversaTransformadaFourier(tsi_wiener);
 ima_res_wiener = real(ima_res_wiener);
 %CLS

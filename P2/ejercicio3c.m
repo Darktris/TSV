@@ -48,10 +48,10 @@ end
 filter_mask = round(filter_mask.*j);
 
 C = sum(filter_mask(:));
-% filter_mask=filter_mask./C;
+filter_mask=filter_mask./C;
 
 h_f = zeros(size(h));
-h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask./C; 
+h_f(cy-w:cy+w,cx-w:cx+w) = filter_mask; 
 
 h_f_d = fftshift(h_f);
 f_filter_t_d = fft2(h_f_d);
@@ -69,8 +69,8 @@ surf(X,Y,f_filter, 'edgecolor', 'none');
 E = getEnergia(f_filter);
 title(sprintf('Filtro laplaciano, E=%g', E))
 subplot 122
-surf(1:5,1:5,filter_mask, 'edgecolor', 'none');
-E = getEnergia(filter_mask);
+surf(1:5,1:5,filter_mask*C, 'edgecolor', 'none');
+E = getEnergia(filter_mask*C);
 title(sprintf('Máscara 5x5, E=%g', E))
 figure;
 subplot 131
