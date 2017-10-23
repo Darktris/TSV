@@ -8,7 +8,7 @@ addpath('autoevaluacion')
 addpath('material')
 
 % Parametros
-epsilon = 0.01; % Epsilon maquina
+epsilon = 0.00001; % Epsilon maquina
 x = imread('test_binary.bmp');
 y = imerode(x, strel('square', 3));
 marker = y;
