@@ -15,7 +15,7 @@ imshow(img)
 title({'Imagen original', sprintf('E = %g', E)})
 
 % Elemento estructurante
-se = strel('sphere', 3);
+se = strel('disk', 3);
 
 % Pruebas
 ima_res = Apertura(img, se);
