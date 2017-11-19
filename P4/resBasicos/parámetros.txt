@@ -1,0 +1,8 @@
+ima     = (rgb2gray(imread('Shannon.jpg')));
+nlevels = 6;
+nscales = 7;
+sigma   = 0.64;
+factor  = 2;
+w       = 5;
+N       = 100;
+W       = 10;
