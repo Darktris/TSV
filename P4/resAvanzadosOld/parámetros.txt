@@ -1,0 +1,15 @@
+% ejercicio4b
+ima     = (rgb2gray(imread('Shannon.jpg')));
+nlevels = 6;
+nscales = 7;
+sigma   = 0.64;
+factor  = 2;
+w       = 5;
+N       = 100;
+W       = 10;
+% ejercicio5a
+ima     = (rgb2gray(imread('Shannon.jpg')));
+sigma = 0.64;
+k = 0.04;
+N = 50;
+W = 5;

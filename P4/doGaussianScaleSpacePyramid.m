@@ -8,15 +8,13 @@ function PSSG=doGaussianScaleSpacePyramid(ima,factor,nlevels,nscales,sigma,w)
 %w : tamaño (wxw) del filtro Gaussiano
 %EJEMPLO :
 % PSSG=doGaussianScaleSpacePyramid(ima,2,10,6,0.64,5); 
-    if rem(nscales, 2)
+    if mod(nscales, 2)==0
         nscales = nscales + 1;
     end
+    
     index_SS = ceil(nscales/2);
     filter_mask = fspecial('gaussian',[w,w], sigma);
-    filter_mask_pyramid = fspecial('gaussian',[5,5],0.64);
-%     a = 0.4;
-%     vector = [1/4 - a/2,1/4,a,1/4,1/4-a/2]'; 
-%     filter_mask_pyramid = vector * vector'; 
+
     
     PSSG{1, 1} = double(ima);
     for j=2:nscales
@@ -25,7 +23,7 @@ function PSSG=doGaussianScaleSpacePyramid(ima,factor,nlevels,nscales,sigma,w)
     
     % Para cada nivel
     for i=2:nlevels      
-        ima_filtrada = imfilter(PSSG{i-1, index_SS}, filter_mask_pyramid);
+        ima_filtrada = imfilter(PSSG{i-1, index_SS}, filter_mask);
         Idiezmada = ima_filtrada(1:factor:end, 1:factor:end);
         PSSG{i, 1} = Idiezmada;
         for j=2:nscales

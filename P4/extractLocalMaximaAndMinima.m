@@ -48,7 +48,7 @@ for lv = 1:1:nlevels
         %i aislar imagen actual
         localP           = PSSLoG{lv,sc};
         %ii eliminar el efecto del suavizado Gaussiano de lado w
-        localP(1:w,:)    = 0;localP(:,1:w)= 0;localP(end-w+1:end,:)= 0;localP(:,end-w+1:end)= 0;
+        localP(1:w,:)    = 255;localP(:,1:w)= 255;localP(end-w+1:end,:)= 255;localP(:,end-w+1:end)= 255;
         %iii actualizar la imagen de mínimos
         mk               = localP < PMinima{lv};
         PMinima{lv}(mk)  = localP(mk);
@@ -146,9 +146,6 @@ maxima_st.x = maximaaux.x(ixN);
 maxima_st.v = maximaaux.v(ixN);
 maxima_st.s = maximaaux.s(ixN);
 maxima_st.l = maximaaux.l(ixN);
-
-%% Máximos de la imagen
-%...   
 
 
 end

@@ -19,7 +19,7 @@ se = strel('square', w);
 
 
 PSSLoG=doLoGScaleSpacePyramid(ima,factor,nlevels,nscales,sigma,w);
-[maxima_st,minima_st] = extractLocalMaximaAndMinima(PSSLoG,N,W,w,factor) 
+[maxima_st,minima_st] = extractLocalMaximaAndMinima(PSSLoG,N,W,w,factor);
 
 imshow(ima),
 hold on, plot(minima_st.x,minima_st.y,'ob'),
