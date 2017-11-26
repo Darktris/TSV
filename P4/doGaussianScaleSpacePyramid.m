@@ -23,7 +23,7 @@ function PSSG=doGaussianScaleSpacePyramid(ima,factor,nlevels,nscales,sigma,w)
     
     % Para cada nivel
     for i=2:nlevels      
-        ima_filtrada = imfilter(PSSG{i-1, index_SS}, filter_mask);
+        ima_filtrada = PSSG{i-1, index_SS};%imfilter(PSSG{i-1, index_SS}, filter_mask);
         Idiezmada = ima_filtrada(1:factor:end, 1:factor:end);
         PSSG{i, 1} = Idiezmada;
         for j=2:nscales

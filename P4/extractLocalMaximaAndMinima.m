@@ -24,8 +24,7 @@ PMaxima  = cell(nlevels);
 PMaximaS = cell(nlevels); 
 PMinima  = cell(nlevels);
 PMinimaS = cell(nlevels); 
-% Pminima = ...
-% PminimaS = ...
+
 
 for lv = 1:1:nlevels
     PMaxima{lv}   =  zeros(size(PSSLoG{lv,end}));
@@ -38,7 +37,7 @@ for lv = 1:1:nlevels
     %% imagen de máximos
         %i aislar imagen actual
         localP           = PSSLoG{lv,sc};
-        %ii eliminar el efecto del suavizado Gaussiano de lado w
+        %ii eliminar el efecto del suavizado Gaussiano de lado w (padding)
         localP(1:w,:)    = 0;localP(:,1:w)= 0;localP(end-w+1:end,:)= 0;localP(:,end-w+1:end)= 0;
         %iii actualizar la imagen de máximos
         mk               = localP > PMaxima{lv};
@@ -83,7 +82,7 @@ for lv = 1:1:nlevels
 %% Mínimos de la imagen 
     % localizador de máximos locales de los LoG (mínimos locales de la imagen)
     %i condición de máximo local de la LoG
-    mk         = (PMaxima{lv} - imdilate(PMaxima{lv},se)) == 0;
+    mk         = (imdilate(PMaxima{lv},se) - PMaxima{lv}) == 0;
     %ii localizar el máximo local de la LoG espacialmente
     [y,x]    = find(mk > 0); 
     %ii número de máximos local de la LoG extraídos
@@ -105,7 +104,7 @@ for lv = 1:1:nlevels
 %% Máximos de la imagen
 % localizador de máximos locales de los LoG (máximos locales de la imagen)
     %i condición de máximo local de la LoG
-    mk         = (PMinima{lv} - imerode(PMinima{lv},se)) == 0;
+    mk         = (imerode(PMinima{lv},se) - PMinima{lv}) == 0;
     %ii localizar el máximo local de la LoG espacialmente
     [y,x]    = find(mk > 0); 
     %ii número de máximos local de la LoG extraídos
