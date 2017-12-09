@@ -5,8 +5,6 @@ close all; clear all; clc;
 addpath('autoevaluacion');
 addpath(genpath('toolboxes'));
 
-%
-
 % Cargar imagen
 img = rgb2gray(imread('images/Shannon.jpg'));
 I = single(img);

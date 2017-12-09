@@ -14,7 +14,7 @@ end
     [F2,D2] = vl_sift(I2);
     [matches, err] = vl_ubcmatch(D1,D2);
     
-    [~  ,ind] = sort(err,'descend');
+    [~  ,ind] = sort(err,'ascend');
     ind = ind(1:(min(numel(ind),nM)));
     
     Best_ind = ind(1:nM);

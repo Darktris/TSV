@@ -1,0 +1,61 @@
+% Limpiar espacio de trabajo
+close all; clear all; clc;
+
+% Cargar imagen
+img = rgb2gray(imread('images/road_1.jpg'));
+I = img;
+th = 0.3;
+sigma = 0.64;
+
+
+thresh = zeros(1, 2);
+thresh(2) = th;
+thresh(1) = 0.4*th;
+
+rho_r = 0.5; 
+theta = -90:0.5:89.5;
+%rho = x*cosd(theta)+y*sind(theta); 
+
+
+% Canny
+E = edge(I,'canny',thresh,sigma);
+imshow(255.*uint8(E)+0.5.*I);
+En = getEnergia(255.*uint8(E)+0.5.*I);
+title(sprintf('th: %d sg: %d\nE: %d', th, sigma, En))
+
+
+% Hough
+[H,T,R] = hough(E,'RhoResolution',rho_r,'Theta',theta); 
+figure(2),
+imshow(imadjust(mat2gray(H)),'XData',T,'YData',R,'InitialMagnification','fit');
+En = getEnergia(H);
+title(sprintf('Hough transform\nE=%d', En));
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal; colormap(hot); 
+
+% Maximos locales
+NHOOD = 50;
+H_max = H;
+H_max(1:NHOOD,:)  = 0;H_max(:,1:NHOOD)= 0;H_max(end-NHOOD+1:end,:)= 0;H_max(:,end-NHOOD+1:end)= 0;
+
+se = strel('square', NHOOD);
+[mtheta, mrho] = extraerMaximosLocales(H_max, se);
+v = zeros(size(mrho));
+
+for i = 1:numel(mtheta)
+    v(i) = H(mrho(i), mtheta(i));
+end
+
+[~, idx] = sort(v, 'descend');
+jtheta = [mtheta(idx(1)), mtheta(idx(2))];
+jrho = [mrho(idx(1)), mrho(idx(2))];
+figure(2),hold on, plot(T(jtheta),R(jrho),'sg','MarkerSize',10)
+
+
+% Rectas
+x = linspace(1, size(E,2), numel(theta));
+y = linspace(1, size(E,1), numel(theta));
+rho = x.*cosd(theta)+y.*sind(theta);
+
+figure(2),hold on, plot(theta,rho)
+
