@@ -38,15 +38,19 @@ NHOOD = 50;
 H_max = H;
 H_max(1:NHOOD,:)  = 0;H_max(:,1:NHOOD)= 0;H_max(end-NHOOD+1:end,:)= 0;H_max(:,end-NHOOD+1:end)= 0;
 
+NHOOD = 50;
 se = strel('square', NHOOD);
 [mtheta, mrho] = extraerMaximosLocales(H_max, se);
 v = zeros(size(mrho));
 
 for i = 1:numel(mtheta)
-    v(i) = H(mrho(i), mtheta(i));
+    v(i) = H_max(mrho(i), mtheta(i));
 end
 
 [~, idx] = sort(v, 'descend');
+
+
+
 jtheta = [mtheta(idx(1)), mtheta(idx(2))];
 jrho = [mrho(idx(1)), mrho(idx(2))];
 figure(2),hold on, plot(T(jtheta),R(jrho),'sg','MarkerSize',10)
