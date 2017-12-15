@@ -1,5 +1,6 @@
 % Limpiar espacio de trabajo
 close all; clear all; clc;
+addpath('images')
 
 % Cargar imagen
 img = rgb2gray(imread('images/road_1.jpg'));
@@ -19,6 +20,7 @@ theta = -90:0.5:89.5;
 
 % Canny
 E = edge(I,'canny',thresh,sigma);
+figure(1)
 imshow(255.*uint8(E)+0.5.*I);
 En = getEnergia(255.*uint8(E)+0.5.*I);
 title(sprintf('th: %d sg: %d\nE: %d', th, sigma, En))
@@ -55,6 +57,20 @@ jtheta = [mtheta(idx(1)), mtheta(idx(2))];
 jrho = [mrho(idx(1)), mrho(idx(2))];
 figure(2),hold on, plot(T(jtheta),R(jrho),'sg','MarkerSize',10)
 
+% rectas en E
+x = 1:size(E,2);
+y1 = (R(jrho(1))-x*cosd(T(jtheta(1))))/sind(T(jtheta(1)));
+y2 = (R(jrho(2))-x*cosd(T(jtheta(2))))/sind(T(jtheta(2)));
+figure(3), imshow(255.*uint8(E)+0.5.*I);
+title(sprintf('Detecciones y punto de fuga en la imagen'))
 
+figure(3),hold on, plot(x,y1,'sg','MarkerSize',2)
+figure(3),hold on, plot(x,y2,'sg','MarkerSize',2)
 
+% Sinusoide del punto de fuga
+p = lsqcurvefit(@sline,[1,1],T(jtheta),R(jrho)); 
+figure(3),hold on,
+plot(p(1),p(2),'xr','MarkerSize',30);
+figure(2),hold on,
+plot(T,sline(p,T),'-g','LineWidth',2) 
 

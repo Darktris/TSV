@@ -19,6 +19,7 @@ theta = -90:0.5:89.5;
 
 % Canny
 E = edge(I,'canny',thresh,sigma);
+figure(1)
 imshow(255.*uint8(E)+0.5.*I);
 En = getEnergia(255.*uint8(E)+0.5.*I);
 title(sprintf('th: %d sg: %d\nE: %d', th, sigma, En))
@@ -56,5 +57,13 @@ jrho = [mrho(idx(1)), mrho(idx(2))];
 figure(2),hold on, plot(T(jtheta),R(jrho),'sg','MarkerSize',10)
 
 
+x = 1:size(E,2);
+y1 = (R(jrho(1))-x*cosd(T(jtheta(1))))/sind(T(jtheta(1)));
+y2 = (R(jrho(2))-x*cosd(T(jtheta(2))))/sind(T(jtheta(2)));
+figure(3), imshow(255.*uint8(E)+0.5.*I);
+title(sprintf('Detecciones y punto de fuga en la imagen'))
+
+figure(3),hold on, plot(x,y1,'sg','MarkerSize',2)
+figure(3),hold on, plot(x,y2,'sg','MarkerSize',2)
 
 
