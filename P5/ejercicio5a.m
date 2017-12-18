@@ -1,11 +1,15 @@
 clear all, clc, close all
 addpath('toolboxes/HoG/')
 addpath('images')
+
+% PARAMETROS
 ima = imread('pandaModel.jpg');
-I = rgb2gray(ima);
+ima2 = imread('panda2.jpg');
 nwx = 6;
 nwy = 6;
-ima2 = imread('panda1.jpg');
+
+
+I = rgb2gray(ima);
 I2 = rgb2gray(ima2);
 sz = size(I2);
 
@@ -13,7 +17,11 @@ figure;
 imshow(ima)
 M = ginput(2);
 M_plot = [M(1,1), M(1,2), M(2,1)-M(1,1), M(2,2)- M(1,2)];
-rectangle('Position',M_plot)
+figure;
+subplot(1,2,1);
+imshow(ima)
+rectangle('Position',M_plot, 'LineWidth',2)
+title('Imagen 1')
 HM=HOG(obtenerSubimagen(I, uint8(M)),nwx,nwy);
 
 ncM = M_plot(3);
@@ -46,6 +54,7 @@ for x = 1:step_x:sz(1)
     i = i + 1;
 end
 
-figure;
+subplot(1,2,2);
 imshow(ima2)
-rectangle('Position', [y_min x_min ncM nrM])
+title('Imagen 2')
+rectangle('Position', [y_min x_min ncM nrM], 'LineWidth',2)
